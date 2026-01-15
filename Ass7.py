@@ -1,5 +1,2 @@
-lenght = float(input("Enter leght :"))
-width = float(input("Enter widht : "))
-
-area= lenght * width
-print("Area of Rectangle : ", area)
+num = 12.0
+print(int(num))

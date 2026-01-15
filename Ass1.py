@@ -1,5 +1,3 @@
-name = "piya"
-age = 19
-city = "valsad"
-
-print(name,age,city)
+a = 10
+b = 3
+print("Remainder =", a % b)

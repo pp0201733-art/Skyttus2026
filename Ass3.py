@@ -1,3 +1,7 @@
-c = float(input("Enter Temperature in Celsius:"))
-f = (c*9/5)+32
-print("Fahrenheit=",f )
+a = 10
+b = 20
+
+if a>b:
+    print("Larger number:",a)
+else:  
+    print("Larger number:",b)  

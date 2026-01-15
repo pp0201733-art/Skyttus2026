@@ -1,5 +1,7 @@
-a = float(input("Enter first nmuber:"))
-b = float(input("Enter second number : "))
+age = 20
+Marks = 80
 
-avg = (a+b)/2
-print("verage = ", avg)
+if age>=18 and Marks >=50:
+    print("Eligible")
+else:
+    print("Not Eligible ")    

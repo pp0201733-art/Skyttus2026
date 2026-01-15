@@ -1,5 +1,3 @@
-a = 10
-b = 20
-a, b = b, a
-print(" a =", a)
-print(" b =", b)
+a = 3
+b = 6
+print(a>0 and b>0)

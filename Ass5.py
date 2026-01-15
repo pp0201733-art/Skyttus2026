@@ -1,4 +1,6 @@
-brith_year = int(input(" Enter your brith year : "))
-currect_year = 2026
-age = currect_year - brith_year
-print("your age is : ", age)
+x =10
+y = 10
+if x == t:
+    print("both numbes are equal")
+else:
+    print("number are not equal")   
