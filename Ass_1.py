@@ -1,2 +1,4 @@
-s = input("Enter a string: ")
-print("Length:", len(s))
+def add(a,b):
+    return a + b
+def sub(a,b):
+    return a - b

@@ -1,3 +1,5 @@
-name = input("Name: ")
-age = int(input("Age: "))
-print(f"My name is {name} and age is {age}")
+import random 
+lst = [1,2,3,4,5]
+
+random.shuffle(lst)
+print(lst)

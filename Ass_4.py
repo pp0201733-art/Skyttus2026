@@ -1,3 +1,4 @@
-s = input("Enter string: ")
-print("First:", s[0])
-print("Last:", s[-1])
+import datetime
+now = datetime.datetime.now()
+print("Date :",now.date())
+print("Time :", now.time())

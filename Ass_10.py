@@ -1,2 +1,3 @@
-words = ["Welcome", "to", "home"]
-print(" ".join(words))
+import os 
+files = os.listdir(".")
+print(files)
