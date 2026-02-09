@@ -1,0 +1,98 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Student
+{
+    // Private fields (Encapsulation)
+    private int studentId;
+    private string name;
+    private string department;
+    private int year;
+    private int marks;
+
+    // Properties (get/set)
+    public int StudentId
+    {
+        get { return studentId; }
+        set { studentId = value; }
+    }
+
+    public string Name
+    {
+        get { return name; }
+        set { name = value; }
+    }
+
+    public string Department
+    {
+        get { return department; }
+        set { department = value; }
+    }
+
+    public int Year
+    {
+        get { return year; }
+        set { year = value; }
+    }
+
+    public int Marks
+    {
+        get { return marks; }
+        set { marks = value; }
+    }
+
+    // Constructor
+    public Student(int id, string name, string dept, int year, int marks)
+    {
+        this.studentId = id;
+        this.name = name;
+        this.department = dept;
+        this.year = year;
+        this.marks = marks;
+    }
+
+    // Display Method
+    public void Display()
+    {
+        Console.WriteLine($"{studentId} | {name} | {department} | Year:{year} | Marks:{marks}");
+    }
+}
+
+class Program
+{
+    static void Main()
+    {
+        // Create multiple student objects
+        List<Student> students = new List<Student>()
+        {
+            new Student(1, "Payal", "IT", 2, 82),
+            new Student(2, "Falguni", "CS", 3, 67),
+            new Student(3, "Neha", "IT", 1, 91),
+            new Student(4, "Amit", "EC", 4, 76),
+            new Student(5, "Het", "CS", 2, 88)
+        };
+
+        Console.WriteLine("=== All Students ===");
+        foreach (var s in students)
+            s.Display();
+
+        // Find students with marks > 75
+        Console.WriteLine("\n=== Marks > 75 ===");
+        var high = students.Where(s => s.Marks > 75);
+        foreach (var s in high)
+            s.Display();
+
+        // Sort by marks
+        Console.WriteLine("\n=== Sorted by Marks ===");
+        var sorted = students.OrderByDescending(s => s.Marks);
+        foreach (var s in sorted)
+            s.Display();
+
+        // Top 3 scorers
+        Console.WriteLine("\n=== Top 3 Scorers ===");
+        var top3 = students.OrderByDescending(s => s.Marks).Take(3);
+        foreach (var s in top3)
+            s.Display();
+    }
+}
