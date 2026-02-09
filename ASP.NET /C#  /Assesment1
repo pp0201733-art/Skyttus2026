@@ -1,0 +1,87 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+class Student
+{
+    public int StudentId;
+    public string Name;
+    public string Department;
+    public int Marks;
+}
+
+class Program
+{
+    static void Main()
+    {
+        List<Student> students = new List<Student>();
+
+        Console.Write("Enter number of students: ");
+        int n = int.Parse(Console.ReadLine());
+
+        // 1. Accept student details
+        for (int i = 0; i < n; i++)
+        {
+            Student s = new Student();
+
+            Console.WriteLine("\nEnter details of student " + (i + 1));
+
+            Console.Write("Student ID: ");
+            s.StudentId = int.Parse(Console.ReadLine());
+
+            Console.Write("Name: ");
+            s.Name = Console.ReadLine();
+
+            Console.Write("Department: ");
+            s.Department = Console.ReadLine();
+
+            Console.Write("Marks: ");
+            s.Marks = int.Parse(Console.ReadLine());
+
+            students.Add(s);
+        }
+
+        // 2. Display all student records
+        Console.WriteLine("\n--- All Students ---");
+        foreach (var s in students)
+        {
+            Console.WriteLine($"{s.StudentId} {s.Name} {s.Department} {s.Marks}");
+        }
+
+        // 3. Display only name and department
+        Console.WriteLine("\n--- Name & Department ---");
+        foreach (var s in students)
+        {
+            Console.WriteLine($"{s.Name} - {s.Department}");
+        }
+
+        // 4. Marks greater than 75
+        Console.WriteLine("\n--- Students with marks > 75 ---");
+        foreach (var s in students.Where(x => x.Marks > 75))
+        {
+            Console.WriteLine($"{s.Name} - {s.Marks}");
+        }
+
+        // 5. Students from specific department
+        Console.Write("\nEnter department to search: ");
+        string dept = Console.ReadLine();
+
+        Console.WriteLine($"--- Students from {dept} department ---");
+        foreach (var s in students.Where(x => x.Department.Equals(dept, StringComparison.OrdinalIgnoreCase)))
+        {
+            Console.WriteLine(s.Name);
+        }
+
+        // 6. Sort by marks (descending)
+        Console.WriteLine("\n--- Students sorted by marks (Descending) ---");
+        foreach (var s in students.OrderByDescending(x => x.Marks))
+        {
+            Console.WriteLine($"{s.Name} - {s.Marks}");
+        }
+
+        // 7. Top scorer
+        var top = students.OrderByDescending(x => x.Marks).First();
+        Console.WriteLine("\n--- Top Scorer ---");
+        Console.WriteLine($"{top.Name} - {top.Marks}");
+    }
+}
