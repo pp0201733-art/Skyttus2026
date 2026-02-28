@@ -1,23 +1,30 @@
-using Microsoft.EntityFrameworkCore;
-using StudentCRUDRepo.Data;
-using StudentCRUDRepo.Repositories;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Versioning;
+using StudentApi.Profiles;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
 
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddAutoMapper(typeof(StudentProfile));
+
+builder.Services.AddApiVersioning(options =>
+{
+    options.AssumeDefaultVersionWhenUnspecified = true;
+    options.DefaultApiVersion = new ApiVersion(1, 0);
+    options.ReportApiVersions = true;
+});
 
 var app = builder.Build();
 
-app.UseStaticFiles();
-app.UseRouting();
+app.UseSwagger();
+app.UseSwaggerUI();
 
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Student}/{action=Index}/{id?}");
+app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapControllers();
 
 app.Run();
