@@ -1,43 +1,39 @@
-using SecureAPI.Middleware;
+using EmployeeAPI.Data;
+using EmployeeAPI.Repositories;
+using EmployeeAPI.Services;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services
+// Add services to the container
 builder.Services.AddControllers();
+
+// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+// Database Connection (SQL Server)
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 
-// 🔐 Read Environment Variable
-string password = Environment.GetEnvironmentVariable("DB_PASSWORD");
-Console.WriteLine("Database Password: " + password);
-
+// Dependency Injection
+builder.Services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+builder.Services.AddScoped<IEmployeeService, EmployeeService>();
 
 var app = builder.Build();
 
-
-// Production error hide
-if (!app.Environment.IsDevelopment())
+// Configure the HTTP request pipeline
+if (app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/error");
+    app.UseSwagger();
+    app.UseSwaggerUI();
 }
 
-
-// Global Exception Middleware
-app.UseMiddleware<ExceptionMiddleware>();
-
-
-// HTTPS Redirection
 app.UseHttpsRedirection();
 
-
-// Authorization
 app.UseAuthorization();
 
-
-// Map Controllers
 app.MapControllers();
 
-
-// Run Application
 app.Run();
