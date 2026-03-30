@@ -1,0 +1,25 @@
+CREATE DATABASE attendance_db;
+USE attendance_db;
+
+-- Tables
+CREATE TABLE Student (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50),
+    roll_no VARCHAR(20) UNIQUE
+);
+
+CREATE TABLE Attendance (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    student_id INT,
+    date DATE,
+    status VARCHAR(10),
+    FOREIGN KEY (student_id) REFERENCES Student(id)
+);
+
+-- Data
+INSERT INTO Student (name, roll_no)
+VALUES ('Rahul', '101'), ('Priya', '102');
+
+INSERT INTO Attendance (student_id, date, status)
+VALUES (1, '2026-03-30', 'Present'),
+       (2, '2026-03-30', 'Absent');
