@@ -1,74 +1,43 @@
-using Microsoft.EntityFrameworkCore;
-using System.Threading.RateLimiting;
-using Microsoft.AspNetCore.RateLimiting;
-using OptimizedAPI.Data;
+using SecureAPI.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container
+// Add services
 builder.Services.AddControllers();
-
-
-// Database Connection (InMemory for testing)
-builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseInMemoryDatabase("UserDB"));
-
-
-// Response Caching
-builder.Services.AddResponseCaching();
-
-
-// CORS Configuration
-builder.Services.AddCors(options =>
-{
-    options.AddPolicy("AllowFrontend", policy =>
-    {
-        policy.WithOrigins("http://localhost:4200")
-              .AllowAnyHeader()
-              .AllowAnyMethod();
-    });
-});
-
-
-// Rate Limiting (5 requests per minute per IP)
-builder.Services.AddRateLimiter(options =>
-{
-    options.AddFixedWindowLimiter("fixed", limiterOptions =>
-    {
-        limiterOptions.PermitLimit = 5;
-        limiterOptions.Window = TimeSpan.FromMinutes(1);
-        limiterOptions.QueueProcessingOrder = QueueProcessingOrder.OldestFirst;
-        limiterOptions.QueueLimit = 2;
-    });
-});
-
-
-// Swagger
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+
+// 🔐 Read Environment Variable
+string password = Environment.GetEnvironmentVariable("DB_PASSWORD");
+Console.WriteLine("Database Password: " + password);
+
 
 var app = builder.Build();
 
 
-// Global Error Handling
-app.UseExceptionHandler("/error");
+// Production error hide
+if (!app.Environment.IsDevelopment())
+{
+    app.UseExceptionHandler("/error");
+}
 
 
-// Middleware Pipeline
+// Global Exception Middleware
+app.UseMiddleware<ExceptionMiddleware>();
 
-app.UseSwagger();
-app.UseSwaggerUI();
 
+// HTTPS Redirection
 app.UseHttpsRedirection();
 
-app.UseCors("AllowFrontend");
 
-app.UseResponseCaching();
-
-app.UseRateLimiter();
-
+// Authorization
 app.UseAuthorization();
 
+
+// Map Controllers
 app.MapControllers();
 
+
+// Run Application
 app.Run();
